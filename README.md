@@ -9,7 +9,7 @@ Ini adalah modul untuk face recognition Sikemas IF (Sistem Kehadiran Mahasiswa I
  4. Letakkan direktori master OpenFace pada direktori yang sama juga.
  
  ## Langkah-Langkah Training
- **Penting:** Setiap kelas akan memiliki model klasifikasinya sendiri sehingga proses training akan sebanyak jumlah kelas yang menggunakan Sikemas.
+ **Penting:** Setiap kelas akan memiliki model klasifikasinya sendiri sehingga proses training akan sebanyak jumlah kelas yang menggunakan Sikemas. Ikuti langkah-langkahnya sebagai berikut:
  
  1. Pada direktori yang sama dengan instalasi modul ini, buat direktori dengan nama **kelas** dengan menjalankan `sudo mkdir kelas` pada terminal.
  2. Jalankan `sudo ./create.sh PBKK-A` untuk proses training pada kelas **PBKK-A**.
@@ -18,7 +18,7 @@ Ini adalah modul untuk face recognition Sikemas IF (Sistem Kehadiran Mahasiswa I
 	 - `PBKK-A/training-images/5114100177`
 	 - `PBKK-A/training-images/5114100024`
 	 - `PBKK-A/training-images/5114100001` 
- 5. Pada direktori `PBKK-A` lakukan preprocessing gambar dengan menjalankan `./train.sh` tanpa menggunakan `sudo`.
+ 5. Pada direktori `PBKK-A` lakukan training wajah dengan menjalankan `./train.sh` tanpa menggunakan `sudo`.
  6. Hasilnya adalah file `model.pkl`yang merupakan model hasil proses training.
 
 ## Algoritma Training
