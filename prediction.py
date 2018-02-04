@@ -2,6 +2,8 @@ import pickle
 import cv2
 import sys
 import operator
+import base64
+import json
 import numpy as np
 import openface
 from flask import Flask, jsonify, request, abort
@@ -24,7 +26,7 @@ print "Ready!"
 def ApiCall():
     print "starting..."
     try:
-        img = cv2.imdecode(np.fromstring(request.files['imagefile'].read(), np.uint8), cv2.IMREAD_COLOR)
+        img = cv2.imdecode(np.fromstring(base64.b64decode(request.values['imagefile']), np.uint8), cv2.IMREAD_COLOR)
         print "image decoded"
 
         aligned_img = face_aligner.align(96, img, landmarkIndices=openface.AlignDlib.OUTER_EYES_AND_NOSE)
@@ -44,7 +46,7 @@ def ApiCall():
         rank = 0
         for key, val in res:
             rank += 1
-            if key == request.form['nrp']:
+            if key == request.values['nrp']:
                 print "PROBABILITY RANK: " + str(rank)
                 prob = val
                 break
@@ -59,4 +61,4 @@ def ApiCall():
         return jsonify(status='500', message='internal server error')
 
 if __name__ == '__main__':
-    app.run(debug=True, threaded=True)
+    app.run(debug=True, host="0.0.0.0")
