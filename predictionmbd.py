@@ -16,7 +16,7 @@ network_model = "nn4.small2.v1.t7"
 face_aligner = openface.AlignDlib(predictor_model)
 net = openface.TorchNeuralNet(network_model, 96, cuda='store_true')
 
-model_path = 'kelas/' + 'StrukturDataC' + '/'
+model_path = 'kelas/' + 'MBD-F' + '/'
 model_file = model_path + 'model.pkl'
 model = pickle.load(open(model_file, 'rb'))
 
