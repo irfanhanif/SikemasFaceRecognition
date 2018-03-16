@@ -33,7 +33,7 @@ def load_model():
 
     if kelas_name in model_loaded:
         message = "Model has already loaded"
-        return jsonify(status='200', message=message)
+        return jsonify(status='200', reply=False, message=message)
 
     try:
         print "Loading Random Forests model for " + kelas_name + "..."
@@ -43,28 +43,27 @@ def load_model():
 
         message = "Model " + kelas_name + " loaded!"
         print message
-        return jsonify(status='200', message=message)
+        return jsonify(status='200', reply=True, message=message)
     except Exception as err:
         print str(err)
         message = "Model cannot be loaded. Please contact admin."
         print message
-        return jsonify(status='500', message=message)
+        return jsonify(status='500', reply=False, message=message)
 
-@app.route('/dumpmodel', methods=['POST'])
-def dump_model():
+@app.route('/removemodel', methods=['POST'])
+def remove_model():
     kelas_name = request.values['kelas']
     if kelas_name not in model_loaded:
         message = "Model "+ kelas_name +" already closed or has not been opened"
         print message
-        return jsonify(status='500', message=message)
+        return jsonify(status='500', reply=False, message=message)
     else:
-        # pickle.dump(model_loaded[kelas_name][0], model_loaded[kelas_name][1])
-        model_loaded[kelas_name] = None
+        del model_loaded[kelas_name]
         model_loaded.pop(kelas_name, None)
         gc.collect()
         message = "Model"+ kelas_name +" successfully dumped"
         print message
-        return jsonify(status='200', message=message)
+        return jsonify(status='200', reply=True, message=message)
 
 @app.route('/predict', methods=['POST'])
 def ApiCall():
@@ -73,7 +72,7 @@ def ApiCall():
 
     if kelas_name not in model_loaded:
         print "Model not loaded. Prediction process terminated."
-        return jsonify(status='500', message='Model not loaded. Please contact your lecturer')
+        return jsonify(status='500', reply=False, message='Model not loaded. Please contact your lecturer')
     else:
         model = model_loaded[kelas_name]
 
@@ -106,7 +105,7 @@ def ApiCall():
 
     	if prob == -1:
             print "ERR: Face data of " + nrp + " are currently not registered (500)"
-            return jsonify(status='500', message='Wajah Anda belum terdaftar di dalam sistem')
+            return jsonify(status='500', reply=False, message='Wajah Anda belum terdaftar di dalam sistem')
 
         if rank <= 5:
     	    print "Prediction result for " + nrp + " accepted"
